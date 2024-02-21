@@ -18,7 +18,15 @@ export default async (searchQuery: string) => {
       $limit: 5,
     },
     {
-      $project: { slug: 1, price: 1, make: 1, model: 1, year: 1 },
+      $project: {
+        slug: 1,
+        price: 1,
+        make: 1,
+        model: 1,
+        year: 1,
+        thumbnail: 1,
+        sales_agent: 1,
+      },
     },
   ]);
   return {

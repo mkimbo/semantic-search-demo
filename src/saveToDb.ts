@@ -32,3 +32,18 @@ export default async (): Promise<void> => {
     }
   }
 };
+
+//  {
+//   "mappings": {
+//     "dynamic": true,
+//     "fields": {
+//       "embeddings": [
+//         {
+//           "dimensions": 384,
+//           "similarity": "cosine",
+//           "type": "knnVector"
+//         }
+//       ]
+//     }
+//   }
+// }

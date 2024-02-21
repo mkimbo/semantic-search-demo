@@ -3,7 +3,9 @@ import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
 
 import generateUnifiedData from "./generateUnifiedData.js";
-import fetchAllData from "./fetchAllData.js";
+import fetchLittleData from "./fetchLittleData.js";
+import convert from "./convertNumberToWords.js";
+import saveToDb from "./saveToDb.js";
 import search from "./search.js";
 import dotenv from "dotenv";
 dotenv.config();

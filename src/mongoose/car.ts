@@ -1,5 +1,5 @@
 // const mongoose = require('mongoose');
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const carSchema = new Schema({
@@ -7,6 +7,7 @@ const carSchema = new Schema({
   model: { type: String, required: false },
   thumbnail: { type: String, required: false },
   year: { type: String, required: false }, // Made optional
+  sales_agent: { type: String, required: false }, // Made optional
   price: { type: String, required: true }, // 'price' field is required
   mileage: { type: String, required: false }, // Made optional
   unifiedString: { type: String, required: false }, // Made optional
@@ -15,6 +16,6 @@ const carSchema = new Schema({
   // New required field
 });
 
-const Car = mongoose.model('Car', carSchema);
+const Car = mongoose.model("Car", carSchema);
 
 export default Car;
