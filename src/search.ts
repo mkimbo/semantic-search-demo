@@ -10,12 +10,12 @@ export default async (searchQuery: string) => {
         knnBeta: {
           vector: embeddings,
           path: "embeddings",
-          k: 100,
+          k: 25,
         },
       },
     },
     {
-      $limit: 5,
+      $limit: 15,
     },
     {
       $project: {
