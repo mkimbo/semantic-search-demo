@@ -26,6 +26,9 @@ export default async (searchQuery: string) => {
         year: 1,
         thumbnail: 1,
         sales_agent: 1,
+        meta: {
+          searchScore: { $meta: "searchScore" },
+        },
       },
     },
   ]);
