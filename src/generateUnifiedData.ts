@@ -13,7 +13,7 @@ type TCar = {
   unified_string: string;
 };
 
-export default (car: any): { unifiedData: TCar } => {
+export default (car: any): { unifiedData: any } => {
   const make = car.model?.make?.name ?? "";
   const model = car.model?.name ?? "";
   const year = car.year_of_manufacture
@@ -30,7 +30,13 @@ export default (car: any): { unifiedData: TCar } => {
   const body_type = car.body_type ?? "";
   const drive = car.drive ?? "";
   const mileage = car.mileage
-    ? `Mileage is ${convert(car.mileage)} ${car.mileage_unit ?? ""}`
+    ? `Mileage is ${convert(car.mileage)} ${
+        car.mileage_unit
+          ? car.mileage_unit == "KM"
+            ? "Kilometres"
+            : car.mileage_unit
+          : ""
+      }.`
     : "";
   const transmission = car.transmission
     ? car.transmission + " transmission" + ","
@@ -62,18 +68,31 @@ export default (car: any): { unifiedData: TCar } => {
   // Creating the unified string
   const unified_string = `${year} ${make} ${model} ${price}  ${description} General features include ${body_type}, ${drive}, ${transmission} ${engine_size}${horse_power} ${mileage}. ${interior_features}, ${air_conditioning}, ${seat_material}. ${safety_features}`;
   const unifiedData = {
-    make,
-    model,
+    name: car.name ?? make + " " + model,
     year: car.year_of_manufacture?.toString() ?? "",
     price: car.price?.toString() ?? "",
+    purchase_status: car.purchase_status ?? "available",
+    car_condition: car.car_condition ?? "Good",
+    duty_and_clearance_fee_currency: car.duty_and_clearance_fee_currency ?? "",
+    duty_and_clearance_fee: car.duty_and_clearance_fee ?? "",
+    estimated_arrival_days: car.estimated_arrival_days ?? "",
+    price_currency: car.price_currency,
+    body_type: car.body_type,
+    source: car.source,
+    current_location: car.current_location,
+    annual_insurance_currency: car.annual_insurance_currency ?? "",
+    annual_insurance: car.annual_insurance ?? "",
+    engine_specifications: car.engine_specifications ?? {},
+    fuel_consumption: car.fuel_consumption ?? {},
+    images: car.vehicle_images.map((i: any) => i.image),
     thumbnail,
-    slug,
+    id: slug,
     mileage: car.mileage?.toString() ?? "",
     engine_size: car.engine_specifications?.engine_size?.toString() ?? "",
     horse_power: car.engine_specifications?.horse_power?.toString() ?? "",
     sales_agent,
-    unified_string,
-  } as TCar;
+    car_description: unified_string,
+  };
   return {
     unifiedData,
   };
