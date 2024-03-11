@@ -3,12 +3,13 @@ import fst from "fs";
 import dotenv from "dotenv";
 dotenv.config();
 import cleanData from "./generateUnifiedData.js";
+import saveToDB from "./saveToDb.js";
 let fs = fst.promises;
 
 const API_URL = process.env.DATA_SOURCE;
 // Replace with your actual API URL
 const ITEMS_PER_PAGE = 25;
-const TOTAL_ITEMS = 2179;
+const TOTAL_ITEMS = 2294;
 const totalPages = Math.ceil(TOTAL_ITEMS / ITEMS_PER_PAGE);
 
 async function fetchAllData() {
@@ -20,7 +21,7 @@ async function fetchAllData() {
       if (!response.ok) {
         throw new Error(`Error fetching page ${page}: ${response.statusText}`);
       }
-      console.log("finished fetching data");
+      console.log(page);
       const data: any = await response.json();
       if (data) {
         allData = allData.concat(
@@ -28,7 +29,6 @@ async function fetchAllData() {
             (item: any) => item["purchase_status"] == "Available"
           )
         );
-        console.log("finished cleaning data");
       }
       // Assuming each page returns an array of items
     } catch (error) {
@@ -55,7 +55,8 @@ async function fetchAllData() {
 async function fetchDataToFile() {
   try {
     const data = await fetchAllData();
-    await fs.writeFile("./newData.json", JSON.stringify(data));
+    await saveToDB(data);
+    //await fs.writeFile("./newData.json", JSON.stringify(data));
     console.log(`Data successfully saved to newData.js`);
   } catch (error) {
     console.error(`Error saving data to file: ${error}`);

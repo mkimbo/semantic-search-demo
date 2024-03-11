@@ -86,9 +86,17 @@ const getRawDescription = (description: string): string => {
 function featuresInclude(features: { [s: string]: boolean | number }) {
   let featureList = [];
   for (const [key, value] of Object.entries(features)) {
-    if (key === "number_of_airbags" && parseInt(value.toString()) > 0) {
+    if (
+      key === "number_of_airbags" &&
+      value &&
+      parseInt(value.toString()) > 0
+    ) {
       featureList.push(`${convert(parseInt(value.toString()))} airbags`);
-    } else if (key === "number_of_seats" && parseInt(value.toString()) > 0) {
+    } else if (
+      key === "number_of_seats" &&
+      value &&
+      parseInt(value.toString()) > 0
+    ) {
       featureList.push(`${convert(parseInt(value.toString()))} seats`);
     } else if (value === true) {
       let featureName = key.replace(/_/g, " ");
