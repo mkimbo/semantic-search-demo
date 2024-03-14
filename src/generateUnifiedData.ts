@@ -84,7 +84,7 @@ export default (car: any): { unifiedData: any } => {
     annual_insurance: car.annual_insurance ?? "",
     engine_specifications: car.engine_specifications ?? {},
     fuel_consumption: car.fuel_consumption ?? {},
-    images: car.vehicle_images.map((i: any) => i.image),
+    images: car.vehicle_images && car.vehicle_images?.map((i: any) => i.image),
     thumbnail,
     id: slug,
     mileage: car.mileage?.toString() ?? "",

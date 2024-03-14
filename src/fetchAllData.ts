@@ -9,7 +9,7 @@ let fs = fst.promises;
 const API_URL = process.env.DATA_SOURCE;
 // Replace with your actual API URL
 const ITEMS_PER_PAGE = 25;
-const TOTAL_ITEMS = 2294;
+const TOTAL_ITEMS = 2276;
 const totalPages = Math.ceil(TOTAL_ITEMS / ITEMS_PER_PAGE);
 
 async function fetchAllData() {
@@ -52,17 +52,16 @@ async function fetchAllData() {
   //return allData;
 }
 // refactor to fetch to db directly
-async function fetchDataToFile() {
+async function saveDataToDB() {
   try {
     const data = await fetchAllData();
     await saveToDB(data);
-    //await fs.writeFile("./newData.json", JSON.stringify(data));
-    console.log(`Data successfully saved to newData.js`);
+    console.log(`Data successfully saved to db`);
   } catch (error) {
-    console.error(`Error saving data to file: ${error}`);
+    console.error(`Error saving data to db: ${error}`);
   }
 }
 
 export default async function fetchData() {
-  fetchDataToFile();
+  saveDataToDB();
 }
