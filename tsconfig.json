@@ -3,6 +3,7 @@
     "strict": true,
     "target": "ESNext",
     "module": "NodeNext",
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "rootDir": "src",
     "outDir": "dist",

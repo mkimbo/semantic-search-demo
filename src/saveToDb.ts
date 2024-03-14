@@ -36,7 +36,6 @@ export default async (carData: any[]): Promise<void> => {
   } catch (error) {
     console.log(error);
   } finally {
-    console.log("saving data...", data);
     if (data.length > 0) {
       Vehicle.insertMany(data)
         .then(function () {
