@@ -1,5 +1,3 @@
-import Car from "./mongoose/car.js";
-import generateEmbeddings from "./generateEmbeddings.js";
 import Vehicle from "./mongoose/vehicle.js";
 import getEmbeddings from "./getEmbeddings.js";
 
@@ -23,8 +21,7 @@ export default async (searchQuery: string) => {
       $project: {
         slug: 1,
         price: 1,
-        make: 1,
-        model: 1,
+        name: 1,
         year: 1,
         thumbnail: 1,
         sales_agent: 1,
