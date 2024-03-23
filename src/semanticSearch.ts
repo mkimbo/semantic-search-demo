@@ -10,19 +10,20 @@ export default async (searchQuery: string) => {
         knnBeta: {
           vector: embeddings,
           path: "embeddings",
-          k: 25,
+          k: 30,
         },
       },
     },
-    {
-      $limit: 15,
-    },
+    // {
+    //   $limit: 15,
+    // },
     {
       $project: {
         slug: 1,
         price: 1,
         name: 1,
         year: 1,
+        car_description: 1,
         thumbnail: 1,
         sales_agent: 1,
         meta: {

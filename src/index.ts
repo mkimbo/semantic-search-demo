@@ -7,6 +7,7 @@ import fetchLittleData from "./fetchLittleData.js";
 import fetchAllData from "./fetchAllData.js";
 import convert from "./convertNumberToWords.js";
 import saveToDb from "./saveToDb.js";
+import scrapePage from "./scrapeAPage.js";
 import search from "./search.js";
 import fetchCarbyId from "./scrapeCarById.js";
 import dotenv from "dotenv";
@@ -20,6 +21,7 @@ const URI = process.env.MONGO_DB_URI;
 mongoose.connect(URI!);
 
 app.get("/", (req: Request, res: Response) => {
+  scrapePage("https://www.kaiandkaro.com/about-us");
   res.send("Welcome, This is a simple use case of Semantic search");
 });
 
