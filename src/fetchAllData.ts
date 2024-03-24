@@ -24,12 +24,11 @@ async function fetchAllData() {
       console.log(page);
       const data: any = await response.json();
       if (data) {
-        allData = allData.concat(
-          data["pageProps"]["vehicles"].filter(
-            (item: any) => item["purchase_status"] == "Available"
-          )
-        );
+        allData = allData.concat(data["pageProps"]["vehicles"]);
       }
+      // .filter(
+      //   (item: any) => item["purchase_status"] == "Available"
+      // )
       // Assuming each page returns an array of items
     } catch (error) {
       console.error(error);

@@ -21,4 +21,5 @@ export type TVehicle = {
   mileage?: string;
   sales_agent?: string;
   car_description: string;
+  simplified_description: string;
 };

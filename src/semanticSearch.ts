@@ -6,7 +6,7 @@ export default async (searchQuery: string) => {
   const docs = await Vehicle.aggregate([
     {
       $search: {
-        index: "indexedCars",
+        index: "allcars",
         knnBeta: {
           vector: embeddings,
           path: "embeddings",

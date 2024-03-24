@@ -38,8 +38,8 @@ export default (car: any): { unifiedData: any } => {
           : ""
       }.`
     : "";
-  const transmission = car.transmission
-    ? car.transmission + " transmission" + ","
+  const transmission = car.engine_specifications?.transmission
+    ? car.engine_specifications?.transmission + " transmission" + ","
     : ""; // Providing a default value if color is null
   const fuel_type = car.engine_specifications?.fuel_type ?? "";
   const engine_size = car.engine_specifications?.engine_size
@@ -92,6 +92,14 @@ export default (car: any): { unifiedData: any } => {
     horse_power: car.engine_specifications?.horse_power?.toString() ?? "",
     sales_agent,
     car_description: unified_string,
+    simplified_description:
+      formatPrice(car.price?.toString()) +
+      " " +
+      car.engine_specifications?.transmission +
+      " " +
+      fuel_type +
+      " " +
+      drive,
   };
   return {
     unifiedData,
@@ -123,4 +131,26 @@ function featuresInclude(features: { [s: string]: boolean | number }) {
     }
   }
   return "features include " + featureList.join(", ");
+}
+
+function formatPrice(price: string): string {
+  // Convert price to a number
+  let numericPrice: number = parseFloat(price);
+
+  // Check if the price is valid
+  if (isNaN(numericPrice)) {
+    return "price not available";
+  }
+
+  // Format price with commas for thousands separators
+  let formattedPrice: string = numericPrice.toLocaleString("en-US", {
+    style: "currency",
+    currency: "KES", // Assuming KES is Kenyan Shilling, change it accordingly
+  });
+
+  // Remove currency symbol and cents
+  formattedPrice = formattedPrice.replace(".00", "");
+
+  // Return formatted price
+  return formattedPrice;
 }

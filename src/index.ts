@@ -21,7 +21,10 @@ const URI = process.env.MONGO_DB_URI;
 mongoose.connect(URI!);
 
 app.get("/", (req: Request, res: Response) => {
-  scrapePage("https://www.kaiandkaro.com/about-us");
+  //scrapePage("https://www.kaiandkaro.com/about-us");
+  // fetchAllData().then(() => {
+  //   console.log("done");
+  // });
   res.send("Welcome, This is a simple use case of Semantic search");
 });
 
