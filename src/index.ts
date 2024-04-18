@@ -46,12 +46,21 @@ app.get("/car-search-v2", (req: Request, res: Response) => {
   }
   semanticSearch(searchQuery).then((data) => {
     let result: any[] = [];
-    let docs = data.searchResults.sort(
+
+    data.searchResults.sort(
       (a, b) =>
         parseInt(a.meta.searchScore.toString()) -
         parseInt(b.meta.searchScore.toString())
     );
-    docs.forEach((item: any) => {
+
+    let topScore = data.searchResults[0].meta.searchScore.toString();
+
+    if (parseFloat(topScore) < 0.7) {
+      return res.json({
+        searchResults: [],
+      });
+    }
+    data.searchResults.forEach((item: any) => {
       let obj = {
         id: item.url,
         nm: item.yr + " " + item.nm,
