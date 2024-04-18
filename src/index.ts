@@ -21,26 +21,50 @@ const URI = process.env.MONGO_DB_URI;
 mongoose.connect(URI!);
 
 app.get("/", (req: Request, res: Response) => {
-  //scrapePage("https://www.kaiandkaro.com/about-us");
-  // fetchAllData().then(() => {
+  res.json({ success: true });
+  // scrapePage("https://www.constituteproject.org/constitution/Kenya_2010").then(
+  //   (response) => {
+  //     console.log("done");
+  //     res.json({ scrapeResults: response });
+  //   }
+  // );
+  // fetchAllData().then((response) => {
   //   console.log("done");
+  //   res.json({ success: true });
   // });
-  res.send("Welcome, This is a simple use case of Semantic search");
+  //res.send("Welcome, This is a simple use case of Semantic search");
 });
 
 app.get("/car-search-v2", (req: Request, res: Response) => {
   const searchQuery = req.query?.searchQuery as string;
+  function extractFileName(url: string) {
+    // Split the URL by "/"
+    const parts = url.split("/");
+    // Get the last part of the URL which contains the filename
+    const fileName = parts[parts.length - 1];
+    return fileName;
+  }
   semanticSearch(searchQuery).then((data) => {
     let result: any[] = [];
-    data.searchResults.forEach((item: any) => {
+    let docs = data.searchResults.sort(
+      (a, b) =>
+        parseInt(a.meta.searchScore.toString()) -
+        parseInt(b.meta.searchScore.toString())
+    );
+    docs.forEach((item: any) => {
       let obj = {
-        ...item,
-        meta: item.meta.searchScore.toString(),
+        id: item.url,
+        nm: item.yr + " " + item.nm,
+        pr: item.pr,
+        sp: item.dt,
+        img: extractFileName(item.img),
       };
       result.push(obj);
     });
 
-    res.json({ searchResults: result });
+    res.json({
+      searchResults: result,
+    });
   });
 });
 

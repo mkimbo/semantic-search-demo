@@ -1,16 +1,17 @@
 import Vehicle from "./mongoose/vehicle.js";
 import getEmbeddings from "./getEmbeddings.js";
+import Car from "./mongoose/car.js";
 
 export default async (searchQuery: string) => {
   const embeddings = await getEmbeddings(searchQuery);
-  const docs = await Vehicle.aggregate([
+  const docs = await Car.aggregate([
     {
       $search: {
-        index: "allcars",
+        index: "betterIndex",
         knnBeta: {
           vector: embeddings,
-          path: "embeddings",
-          k: 30,
+          path: "emb",
+          k: 50,
         },
       },
     },
@@ -19,19 +20,19 @@ export default async (searchQuery: string) => {
     // },
     {
       $project: {
-        slug: 1,
-        price: 1,
-        name: 1,
-        year: 1,
-        car_description: 1,
-        thumbnail: 1,
-        sales_agent: 1,
+        url: 1,
+        pr: 1,
+        nm: 1,
+        yr: 1,
+        dt: 1,
+        img: 1,
         meta: {
           searchScore: { $meta: "searchScore" },
         },
       },
     },
   ]);
+
   return {
     searchResults: docs,
   };

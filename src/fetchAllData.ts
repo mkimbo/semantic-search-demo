@@ -9,7 +9,7 @@ let fs = fst.promises;
 const API_URL = process.env.DATA_SOURCE;
 // Replace with your actual API URL
 const ITEMS_PER_PAGE = 25;
-const TOTAL_ITEMS = 2276;
+const TOTAL_ITEMS = 2575;
 const totalPages = Math.ceil(TOTAL_ITEMS / ITEMS_PER_PAGE);
 
 async function fetchAllData() {
@@ -24,7 +24,9 @@ async function fetchAllData() {
       console.log(page);
       const data: any = await response.json();
       if (data) {
-        allData = allData.concat(data["pageProps"]["vehicles"]);
+        allData = allData
+          .filter((item: any) => item["purchase_status"] != "Sold")
+          .concat(data["pageProps"]["vehicles"]);
       }
       // .filter(
       //   (item: any) => item["purchase_status"] == "Available"

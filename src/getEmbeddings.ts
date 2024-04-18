@@ -10,7 +10,7 @@ export default async (data: string): Promise<number[]> => {
     model: "text-embedding-3-large",
     input: data,
     encoding_format: "float",
-    dimensions: 384,
+    dimensions: 1024,
   });
 
   return embedding.data[0].embedding;

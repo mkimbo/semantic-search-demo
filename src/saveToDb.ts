@@ -3,6 +3,7 @@ import generateUnifiedData from "./generateUnifiedData.js";
 import { TVehicle } from "./types.js";
 import getEmbeddings from "./getEmbeddings.js";
 import Vehicle from "./mongoose/vehicle.js";
+import Car from "./mongoose/car.js";
 export default async (carData: any[]): Promise<void> => {
   let i = 0;
   let data: any[] = [];
@@ -23,22 +24,20 @@ export default async (carData: any[]): Promise<void> => {
       }: TVehicle = generateUnifiedData(car).unifiedData;
       const embeddings = await getEmbeddings(car_description);
       data.push({
-        name,
-        price,
-        mileage,
-        car_description: simplified_description,
-        slug: id,
-        sales_agent,
-        year,
-        thumbnail,
-        embeddings: embeddings,
+        nm: name,
+        pr: price,
+        dt: simplified_description,
+        url: id,
+        yr: year,
+        img: thumbnail,
+        emb: embeddings,
       });
     }
   } catch (error) {
     console.log(error);
   } finally {
     if (data.length > 0) {
-      Vehicle.insertMany(data)
+      Car.insertMany(data)
         .then(function () {
           console.log("Data inserted"); // Success
         })

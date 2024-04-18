@@ -9,7 +9,7 @@ interface ScrapedData {
   [key: string]: any;
 }
 
-export default async function scrapePage(url: string): Promise<void> {
+export default async function scrapePage(url: string): Promise<any> {
   try {
     try {
       console.log("scarping...");
@@ -19,11 +19,54 @@ export default async function scrapePage(url: string): Promise<void> {
       // Load the HTML content into Cheerio
       const $ = cheerio.load(response.data);
 
+      const scrapedData: { articleNo?: number; articleLink?: string }[] = [];
+
+      //Scraping the data
+      $("h3.depth-1").each((index, element) => {
+        const articleText = $(element).text();
+        const match = articleText.match(/^(\d+)\.\s*(.*)/);
+        if (match) {
+          const articleNo = parseInt(match[1]);
+          const articleLink = $(element).parent().attr("id");
+          scrapedData.push({
+            articleNo,
+            articleLink:
+              "https://www.constituteproject.org/constitution/Kenya_2010#" +
+              articleLink,
+          });
+        }
+      });
+      $("h3.depth-2").each((index, element) => {
+        const articleText = $(element).text();
+        const match = articleText.match(/^(\d+)\.\s*(.*)/);
+        if (match) {
+          const articleNo = parseInt(match[1]);
+          const articleLink = $(element).parent().attr("id");
+          if (articleNo > 8) {
+            scrapedData.push({
+              articleNo,
+              articleLink:
+                "https://www.constituteproject.org/constitution/Kenya_2010#" +
+                articleLink,
+            });
+          }
+        }
+      });
+
+      console.log(
+        scrapedData.length
+        //scrapedData.sort((a, b) => a.articleNo! - b.articleNo!)
+      );
+      await fs.writeFile(
+        "articleLinks.json",
+        JSON.stringify(scrapedData.sort((a, b) => a.articleNo! - b.articleNo!))
+      );
+      return scrapedData.sort((a, b) => a.articleNo! - b.articleNo!);
       // Extract the text content without HTML tags
-      const rawText = $("body").text();
-      await fs.writeFile("scraped.txt", JSON.stringify(rawText));
+      // const rawText = $("body").text();
+      //  await fs.writeFile("articleLinks.json", JSON.stringify(scrapedData));
       // Print or process the raw text data
-      console.log("done...");
+      //console.log("done...");
     } catch (error) {
       console.error("Error scraping webpage:", error);
     }
