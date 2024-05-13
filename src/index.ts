@@ -10,8 +10,10 @@ import saveToDb from "./saveToDb.js";
 import scrapePage from "./scrapeAPage.js";
 import search from "./search.js";
 import fetchCarbyId from "./scrapeCarById.js";
+import createUser, { UserData } from "./blog/createUser.js";
 import dotenv from "dotenv";
 import semanticSearch from "./semanticSearch.js";
+import BlogUser from "./mongoose/blog/user.js";
 dotenv.config();
 
 const app: Express = express();
@@ -103,6 +105,41 @@ app.get("/get-car-data", (req: Request, res: Response) => {
     });
   }
 });
+
+app.get("/blog-admin-login", (req: Request, res: Response) => {
+  const adminData = {
+    username: req.query?.username as string,
+    password: req.query?.password as string,
+  };
+
+  BlogUser.findOne({ email: adminData.username }).then((user) => {
+    if (user) {
+      if (user.password === adminData.password) {
+        res.json({
+          success: true,
+          user: {
+            username: user.username,
+            email: user.email,
+            roles: user.roles,
+          },
+        });
+      } else {
+        res.json({ success: false, user: null });
+      }
+    } else {
+      res.json({ success: false, user: null });
+    }
+  });
+});
+// app.get("/create-blog-admin", (req: Request, res: Response) => {
+//   const adminData: UserData = {
+
+//   };
+//   createUser(adminData).then((data) => {
+//     res.json({ res: data });
+//   });
+//   // }
+// });
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
