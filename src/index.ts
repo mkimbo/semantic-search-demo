@@ -104,11 +104,10 @@ app.get("/scrape-link", (req: Request, res: Response) => {
       if (result) {
         res.json({ text: result });
       } else {
-        res.json({ text: "error" });
+        res.json({ text: "error scraping" });
       }
     });
   }
-  res.json({ text: "error" });
 });
 
 app.get("/get-car-data", (req: Request, res: Response) => {
