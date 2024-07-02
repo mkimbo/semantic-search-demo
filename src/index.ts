@@ -7,7 +7,7 @@ import fetchLittleData from "./fetchLittleData.js";
 import fetchAllData from "./fetchAllData.js";
 import convert from "./convertNumberToWords.js";
 import saveToDb from "./saveToDb.js";
-import scrapePage from "./scrapeAPage.js";
+import scrapeLink from "./scrapeLink.js";
 import search from "./search.js";
 import fetchCarbyId from "./scrapeCarById.js";
 import createUser, { UserData } from "./blog/createUser.js";
@@ -95,6 +95,20 @@ app.get("/car-search", (req: Request, res: Response) => {
       res.json({ searchResults: result });
     });
   }
+});
+
+app.get("/scrape-link", (req: Request, res: Response) => {
+  const link = req.query?.link as string;
+  if (link) {
+    scrapeLink(link).then((result) => {
+      if (result) {
+        res.json({ text: result });
+      } else {
+        res.json({ text: "error" });
+      }
+    });
+  }
+  res.json({ text: "error" });
 });
 
 app.get("/get-car-data", (req: Request, res: Response) => {
