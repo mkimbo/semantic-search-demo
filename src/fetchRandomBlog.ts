@@ -1,10 +1,17 @@
 import TweetSource from "./mongoose/tweet.js";
 
 export default async () => {
-  //all docs where tweets are less than 5
+  //find all docs where tweets are less than 5
   const docs = await TweetSource.find({
-    tweets: { $size: { $lt: 5 } },
-  }).exec();
+    $expr: {
+      $lte: [
+        {
+          $size: "$tweets",
+        },
+        5,
+      ],
+    },
+  });
   return {
     docs: docs.map((doc) => {
       const id = doc._id;
@@ -12,7 +19,7 @@ export default async () => {
         id: id.toString(),
         url: doc.url,
         summary: doc.summary,
-        tweets: doc.tweets.join("\n"),
+        tweets: doc.tweets.join(","),
       };
     }),
   };
