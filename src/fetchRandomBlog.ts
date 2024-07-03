@@ -19,7 +19,7 @@ export default async () => {
         id: id.toString(),
         url: doc.url,
         summary: doc.summary,
-        tweets: doc.tweets.join(","),
+        tweets: doc.tweets.join("\n"),
       };
     }),
   };
