@@ -9,11 +9,14 @@ import convert from "./convertNumberToWords.js";
 import saveToDb from "./saveToDb.js";
 import scrapeLink from "./scrapeLink.js";
 import search from "./search.js";
+import updateTweetSource from "./updateTweetSource.js";
+import fetchRandomBlog from "./fetchRandomBlog.js";
 import fetchCarbyId from "./scrapeCarById.js";
 import createUser, { UserData } from "./blog/createUser.js";
 import dotenv from "dotenv";
 import semanticSearch from "./semanticSearch.js";
 import BlogUser from "./mongoose/blog/user.js";
+import tweet from "./mongoose/tweet.js";
 dotenv.config();
 
 const app: Express = express();
@@ -120,19 +123,37 @@ app.get("/get-car-data", (req: Request, res: Response) => {
 });
 
 app.get("/get-random-blog-url", (req: Request, res: Response) => {
-  const blogLinks = [
-    "https://jackmkimbo.dev/blog/posts/streamline-your-clinic-services-with-ai",
-    "https://jackmkimbo.dev/blog/posts/ai-solutions-for-modern-car-dealerships",
-    "https://jackmkimbo.dev/blog/posts/artificial-intelligence-is-changing-the-world-around-us",
-    "https://jackmkimbo.dev/blog/posts/embracing-ai-in-customer-service",
-    "https://yorcmo.com/leveraging-technology-the-role-of-automation-in-marketing/",
-    "https://www.cocreations.ai/news/the-opportunities-and-considerations-of-leveraging-workflow-automation-in-marketing-communications",
-    "https://www.fujifilm.com/fbth/en/insights/articles/leveraging-workflow-automation-solutions-for-productivity",
-    "https://www.forbes.com/sites/theyec/2022/04/04/how-smes-can-leverage-workflow-automation/",
-  ];
-  const randomIndex = Math.floor(Math.random() * blogLinks.length);
-  res.json({
-    blogUrl: blogLinks[randomIndex],
+  // const blogLinks = [
+  //   "https://jackmkimbo.dev/blog/posts/streamline-your-clinic-services-with-ai",
+  //   "https://jackmkimbo.dev/blog/posts/ai-solutions-for-modern-car-dealerships",
+  //   "https://jackmkimbo.dev/blog/posts/artificial-intelligence-is-changing-the-world-around-us",
+  //   "https://jackmkimbo.dev/blog/posts/embracing-ai-in-customer-service",
+  //   "https://yorcmo.com/leveraging-technology-the-role-of-automation-in-marketing/",
+  //   "https://www.cocreations.ai/news/the-opportunities-and-considerations-of-leveraging-workflow-automation-in-marketing-communications",
+  //   "https://www.fujifilm.com/fbth/en/insights/articles/leveraging-workflow-automation-solutions-for-productivity",
+  //   "https://www.forbes.com/sites/theyec/2022/04/04/how-smes-can-leverage-workflow-automation/",
+  // ];
+  fetchRandomBlog().then(({ docs }) => {
+    const randomIndex = Math.floor(Math.random() * docs.length);
+    const source = docs[randomIndex];
+
+    res.json({
+      id: source.id,
+      blogUrl: source.url,
+      summary: source.summary,
+      tweets: source.tweets,
+    });
+  });
+});
+
+app.post("/update-tweet-source", (req: Request, res: Response) => {
+  const data: {
+    id: string;
+    tweet: string;
+  } = req.body;
+  // update TweetSource
+  updateTweetSource(data).then((data) => {
+    res.sendStatus(200);
   });
 });
 
