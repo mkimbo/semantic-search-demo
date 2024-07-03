@@ -24,7 +24,7 @@ const port = process.env.PORT || 3000;
 
 const URI = process.env.MONGO_DB_URI;
 mongoose.connect(URI!);
-
+app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.json({ success: true });
   // scrapePage("https://www.constituteproject.org/constitution/Kenya_2010").then(
@@ -151,7 +151,6 @@ app.post("/update-tweet-source", (req: Request, res: Response) => {
     id: string;
     tweet: string;
   } = req.body;
-  // update TweetSource
   updateTweetSource(data).then((data) => {
     res.sendStatus(200);
   });
