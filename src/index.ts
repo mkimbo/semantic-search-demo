@@ -119,6 +119,19 @@ app.get("/get-car-data", (req: Request, res: Response) => {
   }
 });
 
+app.get("/get-random-blog-url", (req: Request, res: Response) => {
+  const blogLinks = [
+    "https://jackmkimbo.dev/blog/posts/streamline-your-clinic-services-with-ai",
+    "https://jackmkimbo.dev/blog/posts/ai-solutions-for-modern-car-dealerships",
+    "https://jackmkimbo.dev/blog/posts/artificial-intelligence-is-changing-the-world-around-us",
+    "https://jackmkimbo.dev/blog/posts/embracing-ai-in-customer-service",
+  ];
+  const randomIndex = Math.floor(Math.random() * blogLinks.length);
+  res.json({
+    blogUrl: blogLinks[randomIndex],
+  });
+});
+
 app.get("/blog-admin-login", (req: Request, res: Response) => {
   const adminData = {
     username: req.query?.username as string,
