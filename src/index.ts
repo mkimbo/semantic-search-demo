@@ -125,6 +125,10 @@ app.get("/get-random-blog-url", (req: Request, res: Response) => {
     "https://jackmkimbo.dev/blog/posts/ai-solutions-for-modern-car-dealerships",
     "https://jackmkimbo.dev/blog/posts/artificial-intelligence-is-changing-the-world-around-us",
     "https://jackmkimbo.dev/blog/posts/embracing-ai-in-customer-service",
+    "https://yorcmo.com/leveraging-technology-the-role-of-automation-in-marketing/",
+    "https://www.cocreations.ai/news/the-opportunities-and-considerations-of-leveraging-workflow-automation-in-marketing-communications",
+    "https://www.fujifilm.com/fbth/en/insights/articles/leveraging-workflow-automation-solutions-for-productivity",
+    "https://www.forbes.com/sites/theyec/2022/04/04/how-smes-can-leverage-workflow-automation/",
   ];
   const randomIndex = Math.floor(Math.random() * blogLinks.length);
   res.json({
