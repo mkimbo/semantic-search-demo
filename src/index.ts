@@ -147,10 +147,7 @@ app.get("/get-random-blog-url", (req: Request, res: Response) => {
 });
 
 app.post("/update-tweet-source", (req: Request, res: Response) => {
-  const data: {
-    id: string;
-    tweet: string;
-  } = req.body;
+  const data = req.body;
   updateTweetSource(data).then((data) => {
     res.sendStatus(200);
   });
