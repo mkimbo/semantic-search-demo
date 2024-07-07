@@ -1,4 +1,4 @@
-import TweetSource from "./mongoose/tweet.js";
+import TweetSource from "./mongoose/tweet-source.js";
 
 function getFormattedDate() {
   const date = new Date();

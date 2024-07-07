@@ -16,7 +16,7 @@ import createUser, { UserData } from "./blog/createUser.js";
 import dotenv from "dotenv";
 import semanticSearch from "./semanticSearch.js";
 import BlogUser from "./mongoose/blog/user.js";
-import tweet from "./mongoose/tweet.js";
+import tweet from "./mongoose/tweet-source.js";
 dotenv.config();
 
 const app: Express = express();
@@ -131,7 +131,7 @@ app.get("/get-random-blog-url", (req: Request, res: Response) => {
 app.post("/update-tweet-source", (req: Request, res: Response) => {
   const data = req.body;
   updateTweetSource(data).then((data) => {
-    res.sendStatus(200);
+    res.json(data);
   });
 });
 

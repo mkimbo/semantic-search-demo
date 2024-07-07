@@ -1,17 +1,20 @@
+//export const runtime = "node.js";
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const tweetSchema = new Schema(
+const tweets = new Schema(
   {
-    url: { type: String, required: true },
-    summary: { type: String, required: false },
-    tweets: [{ type: String, required: false }],
+    content: { type: String, required: true },
+    mediaId: { type: String, required: false },
+    status: { type: String, required: false, default: "draft" },
+    datePublished: [{ type: String, required: false }],
+    sourceId: { type: String, required: false },
   },
   {
     timestamps: true,
   }
 );
 
-const TweetSource = mongoose.model("TweetSource", tweetSchema);
+const Tweet = mongoose.model("Vehicle", tweets);
 
-export default TweetSource;
+export default Tweet;
