@@ -12,11 +12,13 @@ import search from "./search.js";
 import updateTweetSource from "./updateTweetSource.js";
 import fetchRandomBlog from "./fetchRandomBlog.js";
 import fetchCarbyId from "./scrapeCarById.js";
+import newAppwriteAppointment from "./newAppwriteAppointment.js";
 import createUser, { UserData } from "./blog/createUser.js";
 import dotenv from "dotenv";
 import semanticSearch from "./semanticSearch.js";
 import BlogUser from "./mongoose/blog/user.js";
 import tweet from "./mongoose/tweet-source.js";
+import { CreateAppointment } from "./types.js";
 dotenv.config();
 
 const app: Express = express();
@@ -131,6 +133,13 @@ app.get("/get-random-blog-url", (req: Request, res: Response) => {
 app.post("/update-tweet-source", (req: Request, res: Response) => {
   const data = req.body;
   updateTweetSource(data).then((data) => {
+    res.json(data);
+  });
+});
+
+app.post("/create-appwrite-appointment", (req: Request, res: Response) => {
+  const data = req.body as CreateAppointment;
+  newAppwriteAppointment(data).then((data) => {
     res.json(data);
   });
 });

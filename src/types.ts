@@ -23,3 +23,13 @@ export type TVehicle = {
   car_description: string;
   simplified_description: string;
 };
+
+export type CreateAppointment = {
+  pId: string;
+  doc: string;
+  reason: string;
+  start: string;
+  end: string;
+  status: string;
+  note: string | undefined;
+};
