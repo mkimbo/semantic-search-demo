@@ -32,4 +32,8 @@ export type CreateAppointment = {
   end: string;
   status: string;
   note: string | undefined;
+  name: string;
+  email: string;
+  phone: string;
+  slotId: string;
 };
