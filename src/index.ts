@@ -109,7 +109,7 @@ app.get("/scrape-link", (req: Request, res: Response) => {
       if (result) {
         res.json({ text: result });
       } else {
-        res.json({ text: "error scraping" });
+        res.json({ text: "N/A" });
       }
     });
   }
