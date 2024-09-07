@@ -110,6 +110,8 @@ app.get("/scrape-link", (req: Request, res: Response) => {
       if (result) {
         res.json({ text: result });
       } else {
+        console.log("called 2");
+
         scrapeLinkRetry(link).then((result) => {
           if (result) {
             res.json({ text: result });
