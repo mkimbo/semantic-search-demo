@@ -8,6 +8,7 @@ import fetchAllData from "./fetchAllData.js";
 import convert from "./convertNumberToWords.js";
 import saveToDb from "./saveToDb.js";
 import scrapeLink from "./scrapeLink.js";
+import scrapeLinkRetry from "./scrapeLinkRetry.js";
 import search from "./search.js";
 import updateTweetSource from "./updateTweetSource.js";
 import fetchRandomBlog from "./fetchRandomBlog.js";
@@ -109,7 +110,13 @@ app.get("/scrape-link", (req: Request, res: Response) => {
       if (result) {
         res.json({ text: result });
       } else {
-        res.json({ text: "N/A" });
+        scrapeLinkRetry(link).then((result) => {
+          if (result) {
+            res.json({ text: result });
+          } else {
+            res.json({ text: "N/A" });
+          }
+        });
       }
     });
   }
