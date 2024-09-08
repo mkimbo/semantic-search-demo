@@ -106,7 +106,7 @@ app.get("/car-search", (req: Request, res: Response) => {
 app.get("/scrape-link", (req: Request, res: Response) => {
   const link = req.query?.link as string;
   if (link) {
-    scrapeLink(link).then((result) => {
+    scrapeLinkRetry(link).then((result) => {
       if (result) {
         res.json({ text: result });
       } else {
