@@ -121,6 +121,8 @@ app.get("/scrape-link", (req: Request, res: Response) => {
         });
       }
     });
+  } else {
+    res.json({ text: "N/A" });
   }
 });
 
