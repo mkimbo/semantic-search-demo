@@ -6,7 +6,7 @@ import getEmbeddings from "./getEmbeddings.js";
 import fetchLittleData from "./fetchLittleData.js";
 import fetchAllData from "./fetchAllData.js";
 import convert from "./convertNumberToWords.js";
-import saveToDb from "./saveToDb.js";
+import postXThread from "./postXthread.js";
 import scrapeLink from "./scrapeLink.js";
 import scrapeLinkRetry from "./scrapeLinkRetry.js";
 import search from "./search.js";
@@ -138,6 +138,13 @@ app.get("/get-car-data", (req: Request, res: Response) => {
 app.get("/get-random-blog-url", (req: Request, res: Response) => {
   fetchRandomBlog().then(({ doc }) => {
     res.json(doc);
+  });
+});
+
+app.post("/post-x-thread", (req: Request, res: Response) => {
+  const text = req.body.text as string;
+  postXThread(text).then((data) => {
+    res.json(data);
   });
 });
 
