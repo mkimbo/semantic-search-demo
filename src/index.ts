@@ -1,13 +1,14 @@
 // src/index.ts
 import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
-
+import filterNewLeads from "./filterNewLeads.js";
 import getEmbeddings from "./getEmbeddings.js";
 import fetchLittleData from "./fetchLittleData.js";
 import fetchAllData from "./fetchAllData.js";
 import convert from "./convertNumberToWords.js";
 import postXThread from "./postXthread.js";
 import scrapeLink from "./scrapeLink.js";
+import generateInstaLeadMessage from "./generateInstaLeadMessage.js";
 import scrapeLinkRetry from "./scrapeLinkRetry.js";
 import search from "./search.js";
 import updateTweetSource from "./updateTweetSource.js";
@@ -18,7 +19,7 @@ import createUser, { UserData } from "./blog/createUser.js";
 import dotenv from "dotenv";
 import semanticSearch from "./semanticSearch.js";
 import BlogUser from "./mongoose/blog/user.js";
-import tweet from "./mongoose/tweet-source.js";
+import searchGoogle from "./googleSearch.js";
 import { CreateAppointment } from "./types.js";
 dotenv.config();
 
@@ -103,6 +104,15 @@ app.get("/car-search", (req: Request, res: Response) => {
   }
 });
 
+app.get("/search-google", (req: Request, res: Response) => {
+  const searchQuery = req.query?.searchQuery as string;
+  if (searchQuery) {
+    searchGoogle(searchQuery).then((data) => {
+      res.json(data);
+    });
+  }
+});
+
 app.get("/scrape-link", (req: Request, res: Response) => {
   const link = req.query?.link as string;
   if (link) {
@@ -126,6 +136,17 @@ app.get("/scrape-link", (req: Request, res: Response) => {
   }
 });
 
+app.get("/generate-insta-messages", (req: Request, res: Response) => {
+  generateInstaLeadMessage().then((result) => {
+    res.json(result);
+  });
+});
+
+app.get("/filter-new-dental-leads", (req: Request, res: Response) => {
+  filterNewLeads().then((result) => {
+    res.json(result);
+  });
+});
 app.get("/get-car-data", (req: Request, res: Response) => {
   const searchUrl = req.query?.searchUrl as string;
   if (searchUrl) {

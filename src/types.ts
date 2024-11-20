@@ -37,3 +37,21 @@ export type CreateAppointment = {
   phone: string;
   slotId: string;
 };
+
+export type TSearchResponse = {
+  organic_results: TOrganicResult[];
+};
+
+type TOrganicResult = {
+  title: string;
+  snippet: string;
+  url: string;
+  position: number;
+};
+
+export type TSearchResults = {
+  searchResults: TOrganicResult[];
+  extractedUrls: {
+    url: string;
+  }[];
+};
